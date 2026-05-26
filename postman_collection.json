@@ -1,0 +1,304 @@
+{
+  "info": {
+    "_postman_id": "query-services-api",
+    "name": "Query Services API",
+    "description": "Complete API for managing queries with MongoDB, Redis, and RabbitMQ",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health & Info",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            },
+            "description": "Check if server is running"
+          }
+        },
+        {
+          "name": "API Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            },
+            "description": "Get API information"
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Queries",
+      "item": [
+        {
+          "name": "Create Query",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+1234567890\",\n  \"message\": \"This is my query message\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/queries/user/create",
+              "host": ["{{base_url}}"],
+              "path": ["api", "queries", "user", "create"]
+            },
+            "description": "Create a new query as a user"
+          }
+        },
+        {
+          "name": "Get My Queries",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/queries/user/my-queries",
+              "host": ["{{base_url}}"],
+              "path": ["api", "queries", "user", "my-queries"]
+            },
+            "description": "Get all queries created by the current user"
+          }
+        },
+        {
+          "name": "Get Query by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/queries/user/{{query_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "queries", "user", "{{query_id}}"]
+            },
+            "description": "Get a specific query by ID"
+          }
+        },
+        {
+          "name": "Update Query",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Name\",\n  \"message\": \"Updated message\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/queries/user/update/{{query_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "queries", "user", "update", "{{query_id}}"]
+            },
+            "description": "Update a query"
+          }
+        },
+        {
+          "name": "Delete Query",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/queries/user/delete/{{query_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "queries", "user", "delete", "{{query_id}}"]
+            },
+            "description": "Delete a query"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public Queries",
+      "item": [
+        {
+          "name": "Get All Queries",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/queries/all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "queries", "all"]
+            },
+            "description": "Get all queries (public endpoint)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Queries",
+      "item": [
+        {
+          "name": "Get All Queries (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/queries/admin/all?page=1&limit=10&status=all",
+              "host": ["{{base_url}}"],
+              "path": ["api", "queries", "admin", "all"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "all",
+                  "description": "pending, resolved, in-progress, or all"
+                }
+              ]
+            },
+            "description": "Get all queries with pagination (Admin only)"
+          }
+        },
+        {
+          "name": "Get Statistics (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/queries/admin/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["api", "queries", "admin", "statistics"]
+            },
+            "description": "Get query statistics (Admin only)"
+          }
+        },
+        {
+          "name": "Update Query (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated by Admin\",\n  \"status\": \"resolved\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/queries/admin/update/{{query_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "queries", "admin", "update", "{{query_id}}"]
+            },
+            "description": "Update a query as admin"
+          }
+        },
+        {
+          "name": "Delete Query (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/queries/admin/delete/{{query_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "queries", "admin", "delete", "{{query_id}}"]
+            },
+            "description": "Delete a query as admin"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:4001",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "your-jwt-token-here",
+      "type": "string"
+    },
+    {
+      "key": "admin_token",
+      "value": "your-admin-jwt-token-here",
+      "type": "string"
+    },
+    {
+      "key": "query_id",
+      "value": "507f1f77bcf86cd799439011",
+      "type": "string"
+    }
+  ]
+}
